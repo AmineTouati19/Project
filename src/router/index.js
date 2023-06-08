@@ -100,6 +100,11 @@ const routes = [
     path: '/developer/schedule',
     redirect: '/schedule'
   },
+  {
+    path: '/leaderboard',
+    name: 'Leaderboard',
+    component: () => import('../views/Developer/Leaderboard.vue'),
+  },
   // company
   {
     path: '/company/home',

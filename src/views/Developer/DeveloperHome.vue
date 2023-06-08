@@ -20,6 +20,7 @@
         <li>     <a href="paths" >  
           <router-link :to="{ name: 'Paths' }"></router-link>PATH
     </a> </li>
+    <li><a href="leaderboard"><router-link :to="{ name: 'Leaderboard' }"></router-link>LEADERBOARD</a></li>
         
         <li href="Login" @click="logout()">
             <router-link :to="{ name: 'Login' }"><span>LOGOUT</span></router-link>

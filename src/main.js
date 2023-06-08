@@ -5,7 +5,8 @@ import store from './store'
 import ElementPlus from 'element-plus'
 import 'element-plus/dist/index.css'
 import 'bootstrap/dist/css/bootstrap.css'
-import bootstrap from 'bootstrap/dist/js/bootstrap.js'
+import bootstrap from 'bootstrap/dist/js/bootstrap.js';
+
 import '@fortawesome/fontawesome-free/css/all.css'; 
 
 
