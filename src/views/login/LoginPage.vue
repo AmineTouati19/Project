@@ -28,10 +28,9 @@
       <img src="../../assets/hi.png" alt="Login Image">
     </div>
   </div>
-  <el-link class="home" href="landing" type="primary" @click="forget">
+  <el-link class="home" href="landing" type="primary">
           <router-link :to="{ name: 'Landing' }"></router-link><i class="fas fa-home"></i> 
         </el-link>
-
 </template>
 
 <script>
