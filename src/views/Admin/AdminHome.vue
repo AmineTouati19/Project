@@ -15,8 +15,8 @@
           <span>Planify</span>
         </li>
         <li @click="navigate('settings')" :class="{ active: activePage === 'settings' }">
-          <i class="fas fa-cog"></i>
-          <span>Settings</span>
+          <i class="fas fa-book"></i>
+          <span>Path</span>
         </li>
       </ul>
       <div class="sidebar-footer">
@@ -24,10 +24,12 @@
           <i class="fas fa-paint-brush"></i>
           <span>Theme</span>
         </div>
-      
-        <li class="logout" href="Login" @click="logout()"><i class="fas fa-sign-out-alt"></i>
-          <router-link :to="{ name: 'Login' }"><span>LOGOUT</span></router-link>
-      </li>
+        <li class="logout" href="Login" @click="logout()">
+          <i class="fas fa-sign-out-alt"></i>
+          <router-link :to="{ name: 'Login' }">
+            <span>LOGOUT</span>
+          </router-link>
+        </li>
       </div>
     </div>
     <div class="main-content">
@@ -40,10 +42,18 @@
           <i class="fas fa-user-circle"></i>
         </div>
       </header>
-      
+
       <div v-if="activePage === 'planify'" class="calendar">
         <!-- Your calendar component goes here -->
         <Calendar />
+      </div>
+      <div v-if="activePage === 'settings'" class="settings">
+        <!-- Your settings component goes here -->
+        <Settings />
+      </div>
+      <div v-if="activePage === 'users'" class="users">
+        <!-- Your settings component goes here -->
+        <Users />
       </div>
     </div>
   </div>
@@ -51,44 +61,49 @@
 
 <script>
 import Calendar from './PlanifyCalendar copy.vue';
-
+import Settings from './CreatePath.vue'; // Import your Settings component
+import Users from './Users.vue';
 export default {
- 
   data() {
     return {
       activePage: '' // Keeps track of the active page
     };
   },
   components: {
-    Calendar
+    Calendar,
+    Settings,
+    Users // Register the Settings component
   },
   methods: {
-      logout() {
-              sessionStorage.removeItem('account');
-              this.$store.state.account={
-                  "id": null,
-                  "email": null,
-                  "username": null,
-                  "role": null,
-                  "is_verified": null,
-                  "image": null,
-                  "skills": null
-              };
-              this.$router.push('/login');
-          },
+    logout() {
+      sessionStorage.removeItem('account');
+      this.$store.state.account = {
+        "id": null,
+        "email": null,
+        "username": null,
+        "role": null,
+        "is_verified": null,
+        "image": null,
+        "skills": null
+      };
+      this.$router.push('/login');
+    },
     navigate(page) {
       this.activePage = page; // Update the active page
       // Handle navigation logic here
       console.log(`Navigating to ${page}`);
+      if (page === 'settings') {
+         // Replace '/create' with your desired route path for the Settings page
+      }
     }
   }
-}
+};
 </script>
 
 <style>
 .dashboard {
   display: flex;
-  height: 100vh;
+  height: 155vh;
 }
 
 .sidebar {
@@ -152,11 +167,15 @@ export default {
 
 .theme-option,
 .logout {
+  position: fixed;
   display: flex;
   align-items: center;
   padding: 10px;
   cursor: pointer;
   transition: background-color 0.3s ease;
+}
+.logout {
+  margin-top: 50px;
 }
 
 .theme-option:hover,

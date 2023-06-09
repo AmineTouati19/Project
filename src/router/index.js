@@ -95,7 +95,13 @@ const routes = [
     component: () => import('../views/Developer/ChallengesPage.vue'),
     params: true
   },
-  
+  {
+    path: '/joboffer',
+    name: 'Job',
+    component: () => import('../views/Developer/JoboffersPage.vue'),
+    params: true
+  }
+  ,
   {
     path: '/developer/schedule',
     redirect: '/schedule'
@@ -107,7 +113,7 @@ const routes = [
   },
   // company
   {
-    path: '/company/home',
+    path: '/companyhome',
     name: 'CompanyHome',
     component: () => import('../views/Company/CompanyHome.vue')
   },
@@ -117,6 +123,7 @@ const routes = [
     name: 'CompanyChallenges',
     component: () => import('../views/Instructor/ChallengesPage.vue')
   }, */
+
   {
     path: '/company/form',
     name: 'CompanyForm',

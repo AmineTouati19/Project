@@ -15,7 +15,7 @@
       <button type="button" @click="addTask" class="add-btn">Add</button>
       <button type="button" @click="submit" class="add-btn">Submit</button>
     </form>
-      <div style="background-color: aliceblue;">{{ tasks }} <br> {{ Challenge }}</div>
+     
       </div>
 </template>
 
@@ -295,7 +295,7 @@ export default {
           }
         }
       }
-      this.$router.push('/company/home')
+      this.$router.push('/companyhome')
     }
 
   }

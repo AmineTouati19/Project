@@ -1,10 +1,8 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
     <div class="form-container">
-      <div class="video-wrapper">
-        <video src="@/assets/ji.mp4" autoplay loop muted></video>
-      </div>
-      <h1>Upload a Form</h1>
+     
+     
       <div class="form">      
         <div class="form-group">  
           <label for="image">Image:</label>
@@ -85,7 +83,7 @@
   
   <style scoped>
   .form-container {
-    width: 1000px;
+    width: 800px;
     margin: 0 auto;
     padding: 50px 20px;
     display: flex;

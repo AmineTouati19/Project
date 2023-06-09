@@ -1,50 +1,71 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
-    <div>
-        <section class="header">
-            <nav>
-                <img src="@/assets/a.png" >
-                <div class="nav-links" id="navlinks">
-                    <i class="fa fa-times" onclick="hidemenu()"></i>
-                    <ul>
-                        <li><a href="">HOME</a></li> 
-                        <li><a href="#about">CHALLENGES</a></li> 
-                        <li><a href="#places">PATH</a></li> 
-                        <li><a href="#contact">ABOUT</a></li> 
-                        
-                        <li href="Login" @click="logout()">
-                            <router-link :to="{ name: 'Login' }"><span>LOGOUT</span></router-link>
-                        </li>
-                        
-                    </ul>
-                </div>
-            <i class="fa fa-bars" onclick="showmenu()"></i>
-            </nav>
-            <div class="icon">
-                <img class="im" src="@/assets/li.png" alt="">
-                </div>
-            <div class="text-box">
-                <h4>Experience the ultimate</h4>
-                <h1> I am  </h1>
-                <h1> <span>COMPANY,</span>  </h1>
-            </div>
-        </section>
-        
+    <div class="app">
+  <div class="navbar">
+    <a class="active">Home</a>
+    <a href="#">Feedbacks</a>
+    <a href="#">Contact</a>
+    <a href="Login" @click="logout()">LOGOUT</a>
+  </div>
+  
+  <div class="search-container">
+    <input type="text" placeholder="Search...">
+    <button type="submit">Search</button>
+  </div>
+      <div class="hero">
+        <button href="CompanyForm" @click="log" class="add-button">
+          <router-link :to="{ name: 'CompanyForm' }"></router-link><i class="fas fa-plus"></i>
+        </button>
+      </div>
     </div>
-</template>
-<script>
-    import AOS from 'aos';
-    import 'aos/dist/aos.css';
-    export default {
-        data() {
-        return {
-            email: '',
-            password: '',
-            scrollPosition: 0
-            }
-        },
-        methods: {
-            logout() {
+    <div class="squares-container">
+      <div class="squares" v-for="(form, index) in forms" :key="index" @click="selectSquare(form)">
+  
+      <div class="square">
+        <div class="square-image">
+          <img :src="form.image" alt="Image">
+        </div>
+        <div class="square-content">
+          <h3>{{ form.name }}</h3>
+          <p>{{ form.descreption }}</p>
+          <p class="points">.Points: {{ form.points }}</p>
+          <p class="max">.Max Team Members: {{ form.max_teamsize }}</p>
+          <button class="btn" @click="deleteSquare(index)">Delete</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div v-if="selectedSquare" class="selected-square">
+  <div class="square-image">
+    <img :src="selectedSquare.image" alt="Image">
+  </div>
+  <div class="square-content">
+    <h3>{{ selectedSquare.name }}</h3>
+    <p>{{ selectedSquare.descreption }}</p>
+    <p class="points">Points: {{ selectedSquare.points }}</p>
+    <p class="max">Max Team Members: {{ selectedSquare.max_teamsize }}</p>
+    <button class="btn" @click="selectedSquare = null">Close</button>
+  </div>
+  </div>
+  
+  </template>
+  
+  <script>
+  export default {
+    data() {
+      return {
+        forms: [],
+        selectedSquare: null,
+      };
+    },
+    mounted() {
+      const forms = JSON.parse(localStorage.getItem('forms'));
+      if (forms) {
+        this.forms = forms;
+      }
+    },
+    methods: {
+      logout() {
                 sessionStorage.removeItem('account');
                 this.$store.state.account={
                     "id": null,
@@ -57,428 +78,279 @@
                 };
                 this.$router.push('/login');
             },
-             handleScroll() {
-            this.scrollPosition = window.pageYOffset || document.documentElement.scrollTop;
-            },
-            goToTop() {
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth',
-            });
-            }
-        },
-        computed: {
-            showGoToTop() {
-            return this.scrollPosition > 0;
-            },
-        },
-        mounted() {
-            window.addEventListener('scroll', this.handleScroll);
-        },
-        beforeUnmount() {
-            window.removeEventListener('scroll', this.handleScroll);
-        },
-        created() {
-            if(this.$store.state.account.role!='company'){
-                if(this.$store.state.account.role){
-                    this.$router.push('/'+this.$store.state.account.role+'/home');}
-                else{
-                    this.$router.push('/login');}
-            }
-            AOS.init({
-                offset: 200,
-                duration: 2000,
-            });
-        },
-    }
-</script>
-<style scoped>
-    @import url('https://unpkg.com/aos@next/dist/aos.css');
-    @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css');
-    
-    
-    * {
-        margin:  0;
-        padding: 0;
-    }
-    
-    html,body {
-        overflow-x: hidden;
-    }
-    .header {
-    min-height: 100vh;
-    width: 100%;
-    background-image:  url(@/assets/774373.jpg);
-    background-position: center;
-    background-size: cover;
-    position: relative;
-    }
-    span {
-      color: #5FCBE1;
-    }
-    nav {
-        display: flex;
-        padding: 0.9%;
-        justify-content: space-between;
-        align-items: center;
-    }
-    nav img {
-        margin-top: 1px;
-        width: 200px;
-        cursor: pointer;
-    
-    }
-    
-    .nav-links {
-        flex: 1;
-        text-align: right;
-        font-size: x-small;
-        cursor: pointer;
-        transition: 0.6s;
-        margin-top: -40px;
-    }
-    .nav-links ul li {
-        list-style: none;
-        display: inline-block;
-        padding: 20px 25px;
-        position: relative;
-    }
-    .nav-links ul li a {
-        color: #fff;
-        text-decoration: none;
-        font-size: 17px;
-    }
-    .nav-links ul li::after {
-        content: '';
-        width: 0%;
-        height: 2px;
-        background:#5FCBE1;
-        display: block;
-        margin: auto;
-        transition: 0.5s;
-    }
-    .nav-links ul li:hover::after {
-        width: 100%;
-    
-    }
-    .icon {
-        margin-top: 100px;
-        position: relative;
-        height: 50px;
-        width: 50px;
-        top: -100px;
-        left: 700px;
-        
-    }
-    .icon .im
-    {position:relative;
-        top: -20px;
-        width: 900px;
-        height: 600px;
-        transform: translateX(0px);
-        animation: float 4s ease-out infinite;
-    } 
-    @keyframes float {
-        0% 
-        {
-            transform: translateY(0px);
-        } 50% 
-        {
-            transform: translateY(-20px);
-        }  100% 
-        {
-            transform: translateY(0px);
-        }
-    }
-    
-    .text-box {
-        width: 90%;
-        color: #fff;
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        
-        
-    }
-    .text-box h4
-    {
-        font-size: 20px;
-    } 
-    .text-box h1 {
-        font-size: 62px;
-        cursor: pointer;
-    
-    }
-    .text-box span 
-    {
-        color: #5FCBE1;
-    }
-    .text-box p {
-        margin: 10px 0 40px;
-        font-size: 30px;
-        color: #fff;
-        cursor: pointer;
-      
-    }
-    .hero-btn {
-        display: inline-block;
-        text-decoration: none;
-        color: #fff;
-        border: 1px solid #fff;
-        padding: 12px 34px;
-        font-size: 16px;
-        background: transparent;
-        position: relative;
-        cursor: pointer;
-       
-    }
-    .hero-btn:hover {
-        border: 1px solid #5FCBE1;
-        background: #5FCBE1;
-        transition: 1s;
-    } 
-    nav .fa{
-        display: none;
-    }
-    @media(max-width: 700px){
-        .text-box h1 {
-            font-size: 20px;
-        }
-        .nav-links ul li {
-            display: block;
-        }
-       
-        .nav-links {
-            position: absolute;
-            background: #5fcbe198;
-            height: 100vh;
-            width: 200px;
-            top: 0;
-            right: -200px;
-            text-align: left;
-            z-index: 2;
-            transition: 1s;
-        }
-      
-        nav .fa {
-            display: block;
-            color: #fff;
-            margin: 10px;
-            font-size: 22px;
-            cursor: pointer;
-        }
-        .nav-links ul {
-        padding: 20px;
-        }
-    }
-    
-    .course {
-        width: 80%;
-        margin: auto;
-        text-align: center;
-        padding-top:100px;
-    }
-    h1 {
-        font-size: 36px;
-        font-weight: 600;
-    }
-    p {
-        color: #777;
-        font-size: 14px;
-        font-weight: 300;
-        line-height: 22px;
-        padding: 10px;
-    }
-    .row {
-        margin-top: 5%;
-        display: flex;
-        justify-content: space-between;
-    }
-    .course-col {
-        flex-basis: 31%;
-        background: #5FCBE1;
-        border-radius: 10px;
-        border-bottom: 5%;
-        padding: 20px 12px;
-        box-sizing: border-box;
-        transition: 0.3s;
-    }
-    h3 {
-        text-align: center;
-        font-weight: 600;
-        margin: 10px 0 ;
-    }
-    .course-col:hover {
-        box-shadow: 0 0 20px rgba(0, 0, 0, 2);
-    }
-    @media(max-width : 700px) {
-        .row {
-            flex-direction: column;
-        
-        }
-        .course-col {
-            padding : 2px 3px;
-        }
-    }
-    
-    .campus {
-        width: 80%;
-        margin: auto;
-        text-align: center;
-        padding-top: 50px;
-    }
-    .campus-col {
-        flex-basis: 32%;
-        border-radius: 10px;
-        margin-bottom: 30px;
-        position: relative;
-        overflow: hidden;
-    }
-    .campus-col img {
-        width:100% ;
-        display: block;
-    }
-    .layer {
-       
-        background: transparent;
-        height: 100%;
-        width: 100%;
-        position: absolute;
-        top: 0;
-        left:0;
-        transition: 0.5s;
-    }
-    .layer:hover {
-        background:#5fcbe19b ;
-    }
-    .layer h3 {
-        width: 100%;
-        font-weight: 500;
-        color: #fff;
-        font-size: 26px;
-        bottom: 0;
-        left: 50%;
-        transform: translateX(-50%);
-        position: absolute;
-        transition: 0.5s;
-    }
-    .layer:hover h3 {
-        bottom: 49%;
-        opacity: 1;
-    }
-    
-    .facilities {
-        width: 80%;
-        margin: auto;
-        text-align: center;
-        padding: 10px;
-    }
-    .facilities-col {
-        flex-basis: 31%;
-        border-radius: 10px;
-        margin-bottom: 5%;
-        text-align: left;
-    }
-    .facilities-col img {
-        width: 100%;
-        border-radius: 10px;
-    }
-    .facilities-col p {
-        padding: 0;
-    }
-    .facilities-col h3 {
-        margin-top: 16px;
-        margin-bottom: 15px;
-        text-align: left;
-    }
-    .video {
-        width: 80%;
-        margin: auto;
-        text-align: center;
-        padding :50px;
-    }
-    .video h1 {
-        font-size: 36px;
-        font-weight: 600;
-    }
-    @media (max-width: 700px) {
-        .video-vd {
-            
-        width: 100%;
-             
-        }
-    }
-    
-    
-    .cta {
-        margin:100px auto;
-        width: 80%;
-        background-image:
-        url(@/assets/774373.jpg);
-    
-        background-size: cover;
-        border-radius: 10px;
-        text-align: center;
-        padding: 100px 0 ;
-    }
-    .cta h1 {
-        color: #fff;
-        margin-bottom: 40px;
-        padding: 0;
-    }
-    @media (max-width: 700px) {
-        .cta h1 {
-            font-size: 24px;
-        }
-    }
-    .footer {
-    background-color: #2980b9;
-    color: #111;
-    width: 100%;
-    text-align: center;
-    padding: 30px 0 ;
-
-}
-.footer h4 {
-    margin-bottom: 25px;
-    margin-top: 20px;
-    font-weight: 600;
-}
-p {
-    color: #111;
-}
-.icons .fab {
-    color: black;
-    margin: 0 13px;
-    cursor: pointer;
-    padding: 18px 0;
-}
-.icons .fab:hover 
-{
-    color: #5FCBE1;
-}
-.go-to-top-button {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    background-color: #2980b9;
-    color: #fff;
-    border: none;
-    outline: none;
-    cursor: pointer;
-    font-size: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: opacity ;
+            log() {
+        this.$router.push({name: 'CompanyForm'} );
+      },
+      selectSquare(square) {
+  this.selectedSquare = square;
+  },
+  
+      deleteSquare(index) {
+  this.forms.splice(index, 1);
+  localStorage.setItem('forms', JSON.stringify(this.forms));
+  this.selectedSquare = null;
+  },
+    },
+  };
+  </script>
+  
+  <style>
+  @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css');
+  
+  * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
   }
-
-  .go-to-top-button:hover {
-    background-color: #297fb9af;
+  
+  .app {
+  position: relative;
   }
-</style>
+  .header {
+      background-color: #f1f1f1;
+      padding: 20px;
+      text-align: center;
+    }
+  
+    /* Style for the navigation bar */
+    .navbar {
+      overflow: hidden;
+      background-color: #333;
+    }
+  
+    /* Style for the navigation links */
+    .navbar a {
+      float: left;
+      display: block;
+      color: #f2f2f2;
+      text-align: center;
+      padding: 14px 16px;
+      text-decoration: none;
+    }
+  
+    /* Style for the active link */
+    .navbar a.active {
     
+      background-color: #0062cc;
+      color: white;
+    }
+    .navbar span{
+      text-align: center;
+    }
+  
+    /* Style for the search bar */
+    .search-container {
+      display: flex;
+      justify-content: center;
+      margin-top: 20px;
+    }
+  
+    .search-container input[type=text] {
+      padding: 10px;
+      width: 300px;
+      border: none;
+      border-radius: 5px 0 0 5px;
+    }
+  
+    .search-container button {
+      padding: 10px 20px;
+      background: #0062cc;
+      border: none;
+      border-radius: 0 5px 5px 0;
+      cursor: pointer;
+    }
+  
+    .search-container button:hover {
+      background: #0062cc;
+    }
+  
+  .add-button {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 60px;
+  height: 60px;
+  border: none;
+  border-radius: 50%;
+  background-color: #0062cc;
+  box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 9999;
+  animation: jump 1s infinite;
+  transition: background-color 0.3s ease;
+  }
+  
+  .add-button:hover {
+  background-color: #003399;
+  }
+  
+  .add-button i {
+  font-size: 24px;
+  color: white;
+  }
+  
+  @keyframes jump {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-12px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+  }
+  
+  .btn {
+  background-color: #007bff;
+  color: white;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 0.25rem;
+  cursor: pointer;
+  }
+  
+  .btn:hover {
+  background-color: #0062cc;
+  color: white;
+  }
+  
+  .squares-container {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  margin-top: 15px;
+  padding: 20px;
+  }
+  
+  .square {
+  width: 250px;
+  height: 400px;
+  background-color: #fff;
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.2s, box-shadow 0.2s;
+  cursor: pointer;
+  }
+  
+  .square:hover {
+  transform: translateY(-5px);
+  box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.2);
+  }
+  
+  .square-image {
+  height: 45%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  }
+  
+  .square-image img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: cover;
+  border-radius: 5px 5px 0 0;
+  }
+  
+  .square-content {
+  padding: 20px;
+  height: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  }
+  
+  h3 {
+  margin-top: 0;
+  color: #444;
+  font-weight: 700;
+  font-size: 24px;
+  }
+  
+  p {
+  margin-top: 3px;
+  margin-bottom: 10px;
+  color: #777;
+  font-weight: 400;
+  font-size: 16px;
+  }
+  
+  .points {
+  font-weight: 200;
+  }
+  
+  .selected-square {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  z-index: 9999;
+  }
+  
+  .selected-square .square-content {
+  background-color: #fff;
+  padding: 30px;
+  border-radius: 10px;
+  text-align: left;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+  max-width: 80%;
+  }
+  
+  .selected-square .square-image {
+  margin-bottom: 20px;
+  }
+  
+  .selected-square img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 5px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+  
+  .selected-square h3 {
+  font-size: 32px;
+  margin-bottom: 10px;
+  color: #333;
+  }
+  
+  .selected-square p {
+  font-size: 20px;
+  margin-bottom: 15px;
+  color: #666;
+  }
+  
+  .selected-square .points,
+  .selected-square .max {
+  font-weight: bold;
+  color: #888;
+  }
+  
+  .selected-square .btn {
+  background-color: #3f51b5;
+  color: #fff;
+  border: none;
+  padding: 12px 24px;
+  font-size: 18px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  }
+  
+  .selected-square .btn:hover {
+  background-color: #303f9f;
+  }
+  
+  
+  
+  </style>

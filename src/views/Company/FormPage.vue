@@ -63,9 +63,9 @@
 import axios from 'axios';
 export default {
   beforeCreate(){
-    if(this.$store.state.account.role!='instructor' || !this.$store.state.account.id){
+    if(this.$store.state.account.role!='company' || !this.$store.state.account.id){
         if(this.$store.state.account.role){
-          this.$router.push('/'+this.$store.state.account.role+'/home');}
+          this.$router.push('/'+this.$store.state.account.role+'home');}
         else{
           this.$router.push('/login');}
     }
@@ -325,15 +325,15 @@ textarea {
 .next-btn {
   border: none;
   outline: none;
-  padding: 16px 32px;
-  font-size: 18px;
+  padding: 20px 34px;
+  font-size: 20px;
   font-weight: 600;
   color: #fff;
   background-color: #007aff;
   cursor: pointer;
   transition: all 0.2s ease-in-out;
   border-radius: 8px;
-  margin-top: 30px;
+  margin-top: 10px;
 }
 
 .next-btn:hover {
@@ -344,12 +344,24 @@ textarea {
   margin-left: 50%;
   transform: translate(-50%, 0);
 }
-.remove-btn,
+
 .add-btn,
 .next-btn {
   background-color: #007bff;
   color: #fff;
   border: none;
+  border-radius: 4px;
+  padding: 10px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+.remove-btn {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  margin-top: 10px;
+  margin-bottom: 10px;
   border-radius: 4px;
   padding: 10px;
   cursor: pointer;

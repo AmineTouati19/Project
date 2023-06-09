@@ -27,8 +27,11 @@
     <div class="image-wrapper">
       <img src="../../assets/hi.png" alt="Login Image">
     </div>
-    
   </div>
+  <el-link class="home" href="landing" type="primary" @click="forget">
+          <router-link :to="{ name: 'Landing' }"></router-link><i class="fas fa-home"></i> 
+        </el-link>
+
 </template>
 
 <script>
@@ -106,6 +109,12 @@ export default {
     width: 100%;
     height: 100%;
     z-index: -1;
+  }
+  .home {
+    font-size: 25px;
+    margin-top: 20px;
+    margin-left: 740px;
+    color: white;
   }
   
   .video-wrapper video {

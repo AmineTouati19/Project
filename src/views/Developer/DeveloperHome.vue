@@ -13,8 +13,8 @@
     </a>    
         </li>
            <li>
-            <a href="challenges" >  
-          <router-link :to="{ name: 'ChallengesPage' }"></router-link>JOB OFFERS
+            <a href="joboffer" >  
+          <router-link :to="{ name: 'Job' }"></router-link>JOB OFFERS
     </a>    
         </li>
         <li>     <a href="paths" >  
