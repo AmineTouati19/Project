@@ -18,8 +18,8 @@
   <label for="role">Role</label>
   <select id="role" v-model="role" name="role" required>
     <option value="" disabled></option>
-    <option value="Developer">Developer</option>
-    <option value="Company">Company</option>
+    <option value="developer">Developer</option>
+    <option value="company">Company</option>
   </select>
 </div>
         <div class="form-group">

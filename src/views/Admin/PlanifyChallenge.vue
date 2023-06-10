@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <AdminNavBar style="margin-bottom: 10px;" />
+    
     <div class="challenges row">
       <div class="col-md-4" v-for="challenge in challenges" :key="challenge.id">
         <div class="challenge card mb-3">
@@ -42,33 +42,15 @@
         </div>
       </div>
     </div>
-    <div style="text-align: center;">
-      <router-link id="planify-new-challenge" class="btn btn-primary" to="/admin/schedule">schedule</router-link> 
-      <router-view/>
-    </div>
   </div>
 </template>
 
 <script>
 import axios from 'axios';
-import AdminNavBar from '@/components/AdminNavBar.vue';
-//import { AOS } from 'aos';
-
 export default {
   name: 'PlanifyChallenge',
   beforeCreate() {
     this.$store.dispatch('GetNonPlanfiedchallenges');
-    if(this.$store.state.account.role!='admin'){
-    if(this.$store.state.account.role){
-      this.$router.push('/'+this.$store.state.account.role+'/home');}
-    else{
-      this.$router.push('/login');}
-    }
-    
-        
-  },
-  components:{
-    AdminNavBar,
   },
   computed: {
     challenges() {
@@ -134,18 +116,131 @@ export default {
 </script>
 
 
-<style scoped>
+<style>
+.challenges.row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.col-md-4 {
+  flex: 0 0 calc(33.33% - 20px);
+  margin-bottom: 20px;
+}
+
+.challenge.card {
+  position: relative;
+  width: 100%;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+  overflow: hidden;
+}
+
+.challenge.card:hover {
+  transform: translateY(-5px);
+}
+
+.card-body {
+  padding: 20px;
+}
+
+.card-title {
+  font-size: 18px;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.card-text {
+  color: #666;
+}
+
+.btn-primary {
+  display: inline-block;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  padding: 10px 20px;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.btn-primary:hover {
+  background-color: #0056b3;
+}
+
+.challenge-image {
+  position: relative;
+  height: 200px;
+  overflow: hidden;
+}
+
+.challenge-image img {
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.3s ease;
+}
+
+.challenge.card:hover .challenge-image img {
+  transform: scale(1.1);
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.challenge.card:hover .overlay {
+  opacity: 1;
+}
+
+.overlay-content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  color: #fff;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.challenge.card:hover .overlay-content {
+  opacity: 1;
+}
+
+.overlay-content h4 {
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+.overlay-content p {
+  font-size: 14px;
+}
+
 
 .mymodal {
   width: 500px;
-  height: 500px;
+  max-width: 90%;
+  height: auto;
+  max-height: calc(100vh - 40px);
   position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   background-color: #fff;
-  border-radius: 5px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  overflow-y: auto;
 }
 
 .modal-content {
@@ -161,7 +256,9 @@ export default {
 }
 
 .modal-title {
-  font-size: 18px;
+  font-size: 24px;
+  color: #333;
+  margin: 0;
 }
 
 .close {
@@ -170,6 +267,11 @@ export default {
   font-size: 24px;
   color: #999;
   cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.close:hover {
+  color: #555;
 }
 
 .modal-body {
@@ -180,13 +282,21 @@ label {
   display: block;
   margin-bottom: 10px;
   font-weight: bold;
+  color: #333;
 }
 
 input {
   width: 100%;
-  padding: 5px;
+  padding: 10px;
   border: 1px solid #ccc;
   border-radius: 4px;
+  font-size: 14px;
+  transition: border-color 0.3s ease;
+}
+
+input:focus {
+  outline: none;
+  border-color: #007bff;
 }
 
 .modal-footer {
@@ -199,11 +309,13 @@ input {
 .btn {
   margin-top: 15px;
   margin-left: 5px;
-  padding: 8px 16px;
+  padding: 10px 20px;
   border: none;
   border-radius: 4px;
   cursor: pointer;
   font-weight: bold;
+  text-transform: uppercase;
+  transition: background-color 0.3s ease;
 }
 
 .btn-primary {
@@ -211,9 +323,19 @@ input {
   color: #fff;
 }
 
+.btn-primary:hover {
+  background-color: #0056b3;
+}
+
 .btn-secondary {
   background-color: #ccc;
   color: #fff;
   margin-right: 10px;
 }
+
+.btn-secondary:hover {
+  background-color: #999;
+}
+
+
 </style>

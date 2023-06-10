@@ -1,6 +1,6 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
-    <div class="app">
+    <div class="app1">
   <div class="navbar">
     <a class="active">Home</a>
     <a href="#">Feedbacks</a>
@@ -21,7 +21,7 @@
     <div class="squares-container">
       <div class="squares" v-for="(form, index) in forms" :key="index" @click="selectSquare(form)">
   
-      <div class="square">
+      <div class="square1">
         <div class="square-image">
           <img :src="form.image" alt="Image">
         </div>
@@ -103,7 +103,7 @@
   box-sizing: border-box;
   }
   
-  .app {
+  .app1 {
   position: relative;
   }
   .header {
@@ -226,7 +226,7 @@
   padding: 20px;
   }
   
-  .square {
+  .square1 {
   width: 250px;
   height: 400px;
   background-color: #fff;

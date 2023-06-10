@@ -100,7 +100,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped >
 .dashboard {
   display: flex;
   height: 155vh;
